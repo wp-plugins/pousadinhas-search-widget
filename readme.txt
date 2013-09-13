@@ -1,5 +1,5 @@
 === Pousadinhas Search Widget ===
-Contributors: Pousadinhas.com.br
+Contributors: pousadinhas
 Donate link: 
 Tags: pousadinhas, search widget, online booking
 Requires at least: 2.8
@@ -12,7 +12,7 @@ Official Pousadinhas.com.br plugin for WordPress. Places the Pousadinhas Search 
 
 == Description ==
 
-With our WordPress plug-in you can easily provide online Pousada booking search for your visitors via the Pousadinhas Search Widget.
+With our WordPress plug-in you can easily provide online pousada booking search for your visitors via the Pousadinhas Search Widget.
 
 The widget can target either a region/place or a specific pousada which must be specified in the 'Destination' field.
 In order to specify the target, use the full slug/path for its URL at http://www.pousadinhas.com.br/, for example:
