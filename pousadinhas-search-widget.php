@@ -99,7 +99,7 @@ class Pousadinhas_Search_Widget extends WP_Widget
 			$params['saida']='';
 		}
 		if(!empty($language)) $params['idioma']=$language;
-		if(!empty($coupling)) $params['coupling']=$coupling;
+		if(!empty($coupling)) $params['acoplar']=$coupling;
 		$query=http_build_query($params);
 		if(!empty($query)) $src.='?'.$query;
 
