@@ -3,7 +3,7 @@ Contributors: pousadinhas
 Donate link: 
 Tags: pousadinhas, search widget, online booking
 Requires at least: 2.8
-Tested up to: 3.9
+Tested up to: 4.3
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: 

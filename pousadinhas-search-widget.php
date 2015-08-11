@@ -21,11 +21,7 @@ class Pousadinhas_Search_Widget extends WP_Widget
 			'description'=>__('Displays the Pousadinhas.com.br online booking search widget.','pousadinhas-search-widget'),
 		));
 
-		$domain=self::DOMAIN;
-		add_action('wp_enqueue_scripts',function() use ($domain)
-		{
-			wp_enqueue_script('pousadinhas-search-widget','//'.$domain.'/js/widget.js');
-		});
+		add_action('wp_enqueue_scripts','pousadinhas_enqueue_script');
 
 		/*
 		$field_id=$this->get_field_id('destination');
@@ -81,10 +77,13 @@ class Pousadinhas_Search_Widget extends WP_Widget
 
 	public function widget($args,$instance)
 	{
+		$enabled=$instance['enabled'];
 		$destination=$instance['destination'];
 		$suggest_dates=$instance['suggest_dates'];
 		$coupling=$instance['coupling'];
 		$compact=$instance['compact'];
+
+		if(!$enabled) return;
 
 		$language=get_bloginfo('language');
 		$language=strtolower(substr($language,0,2));
@@ -122,12 +121,18 @@ class Pousadinhas_Search_Widget extends WP_Widget
 	public function form($instance)
 	{
 		$instance=wp_parse_args($instance,array(
+			'enabled'=>false,
 			'destination'=>'',
 			'suggest_dates'=>true,
 			'coupling'=>'',
 			'compact'=>false,
 		));
 		?>
+
+		<p>
+		<input id="<?php echo $this->get_field_id('enabled'); ?>" name="<?php echo $this->get_field_name('enabled'); ?>" type="checkbox" <?php checked($instance['enabled']); ?> />
+		<label for="<?php echo $this->get_field_id('enabled'); ?>"><?php _e('Enabled','pousadinhas-search-widget'); ?></label>
+		</p>
 
 		<p>
 		<label for="<?php echo $this->get_field_id('destination'); ?>"><?php _e('Destination:','pousadinhas-search-widget'); ?></label> 
@@ -161,6 +166,7 @@ class Pousadinhas_Search_Widget extends WP_Widget
 	public function update($new_instance,$old_instance)
 	{
 		$instance=$old_instance;
+		$instance['enabled']=(bool)$new_instance['enabled'];
 		$instance['destination']=trim($new_instance['destination']);
 		$instance['suggest_dates']=(bool)$new_instance['suggest_dates'];
 		if(in_array($new_instance['coupling'],array('','NE','NO','SE','SO')))
@@ -172,9 +178,17 @@ class Pousadinhas_Search_Widget extends WP_Widget
 	}
 }
 
-add_action('widgets_init',function()
+function pousadinhas_enqueue_script()
+{
+	$domain=Pousadinhas_Search_Widget::DOMAIN;
+	wp_enqueue_script('pousadinhas-search-widget','//'.$domain.'/js/widget.js');
+}
+
+function pousadinhas_register_widget()
 {
 	return register_widget('Pousadinhas_Search_Widget');
-});
+}
+
+add_action('widgets_init','pousadinhas_register_widget');
 
 load_plugin_textdomain('pousadinhas-search-widget',false,dirname(plugin_basename( __FILE__ )).'/languages/');
